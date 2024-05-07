@@ -130,3 +130,4 @@ mvn test
 [7] Add integration tests.
 [8] Create POSTMAN collection to automate testing as much as possible.
 [9] Add same initial sample data in the DB.
+[10] Add proper logging.

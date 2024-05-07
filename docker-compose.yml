@@ -1,0 +1,33 @@
+version: '2'
+services:
+  db:
+    container_name: qr_db
+    restart: always
+    image: postgres:12
+    volumes:
+      - qrdb:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=nikos
+      - POSTGRES_DB=qrdb
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+
+  qr-api:
+    container_name: qr_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8005:8005'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://qr_db:5432/qrdb
+      - SPRING_DATASOURCE_USERNAME=nikos
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+
+volumes:
+  qrdb: {}
